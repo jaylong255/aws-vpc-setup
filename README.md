@@ -1,4 +1,4 @@
-# AWS VPC Setup
+# AWS VPC
 
 ## Instructions on how to set up infrastructure behind a secure virtual private cloud on Amazon web services.
 
@@ -51,3 +51,28 @@ You're going to need at least four subnets to make this work. Two public and two
 2. Click on your new ACL to highlight it.
 3. In the "Actions" dropdown, select "Edit subnet associations".
 4. Add all four subnets and save it.
+
+### V. Create Route Tables
+>A route table specifies how packets are forwarded between the subnets within your VPC, the internet, and your VPN connection.
+1. Go to the "Route Tables" tab. You should already have a route table for the VPC. Name this something descriptive that follows the same convention as the rest of the infrastructure so you know what goes with what if you or the client builds more systems on this AWS account.
+2. Create a new route table. Click the "Create route table" button. Name it for the private subnet, so you can easily select it when working with private subnets.
+3. Select the VPC from the dropdown.
+4. Click "Create".
+5. Now repeat the 2 and 3 for the public route table, naming it for the public subnet so you can tell them apart easily.
+
+### VI. Explicitly Associate Your Subnets with Your Route Tables. 
+1. Click on the public route table to select it. 
+2. In the "Actions" dropdown, click "Edit subnet associations".
+3. Click on the two public subnets to associate them. They should be easy to spot if you named them descriptively.
+4. Save your associations.
+5. Repeat 1--4 for your private route table.
+6. Set the private route table as the main route table. Click it to highlight it. In the "Actions" dropdown, click "Set Main Route Table".
+
+### VII. Elastic IP
+>An Elastic IP address is a static IPv4 address designed for dynamic cloud computing. An Elastic IP address is associated with your AWS account. With an Elastic IP address, you can mask the failure of an instance or software by rapidly remapping the address to another instance in your account.
+1. From the Elastic IPs tab, click "Allocate new address".
+2. Just let Amazon pull one from their pool, unless you have one you insist on using.
+3. Click "Allocate".
+
+### VIII. NAT Gateway
+>You can use a network address translation (NAT) gateway to enable instances in a private subnet to connect to the internet or other AWS services, but prevent the internet from initiating a connection with those instances.
