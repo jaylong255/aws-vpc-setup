@@ -1,4 +1,4 @@
-# AWS VPC
+# AWS VPC Setup
 
 ## Instructions on how to set up infrastructure behind a secure virtual private cloud on Amazon web services.
 
