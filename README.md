@@ -2,6 +2,11 @@
 
 ## Instructions on how to set up infrastructure behind a secure virtual private cloud on Amazon web services.
 
+### So what good is all this?
+- Protects all of your infrastructure behind a secure network, so it's an added layer of security.
+- Forces all access to your instances to go through a limited number of manageable points.
+- Allows you to interact quickly and more freely on a private network while staying secure.
+
 *SPECIAL NOTE: There are a couple of notes in this document were I'm unclear on how it actually came together. Please read over the notes first to make sure you know what you're geting yourself into. Maybe You can help me clear these parts up.*
 
 I'm going to start with an outline based on my most recent notes. Once I've documented the overall process, I'll take some time and go back and flesh it out with more detail. A lot of this comes directly from the AWS docs. 
@@ -9,28 +14,30 @@ I'm going to start with an outline based on my most recent notes. Once I've docu
 So, one thing to keep in mind here is there are countless ways to set these things up. This may not be the perfect way for every system, but it's a solid config that I use a lot. I'm documenting it because it works for me in most cases and the AWS docs take so long to study and analyze. I just wanted a quick way to share this process and get feedback from the community.
 
 ### Ultimately, we're going to set up these items:
-- Virtual Private Cloud to secure all of the system's infrastructure.
-- Security Group to control access to all the instances on the vpc.
-- Network ACL (Access Control List)
-- Private Subnets to allow the instances to communicate behind the vpc.
-- Public Subnets 
-- Route Tables
-- Elastic IP
-- NAT (Network Access Translation) Gateway 
-- IGW (Internet Gateway)
-- Elastic Network Interfaces (ENI)
+|Service|Usage|
+|--|--|
+|Virtual Private Cloud|Secures all of the system's infrastructure.|
+|Security Group|Controls access to all the instances on the vpc.|
+|Network ACL (Access Control List)||
+|Private Subnets|Allows the instances to communicate behind the vpc.|
+|Public Subnets|Opens up access for your NAT Gateway and your IGW| 
+|Route Tables|To manage your subnets and gateways.|
+|Elastic IP|A Static IP to point your DNS records at while you swap your instances in and out.|
+|NAT (Network Access Translation) Gateway|So that your |
+|IGW (Internet Gateway)||
+|Elastic Network Interfaces (ENI)||
 
 This will set up everything we need to secure application instances behind a VPC with a single bastion instance that is publicly accessible for outside access. 
 
-### I. Create a VPC
->A VPC is an isolated portion of the AWS cloud populated by AWS objects, such as Amazon EC2 instances. You must specify an IPv4 address range for your VPC. Specify the IPv4 address range as a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16. You cannot specify an IPv4 CIDR block larger than /16. You can optionally associate an Amazon-provided IPv6 CIDR block with the VPC.
+### I. Create a Virtual Private Cloud (VPC)
+>A [VPC](https://docs.amazonaws.cn/en_us/vpc/latest/userguide/what-is-amazon-vpc.html) is an isolated portion of the AWS cloud populated by AWS objects, such as Amazon EC2 instances. You must specify an IPv4 address range for your VPC. Specify the IPv4 address range as a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16. You cannot specify an IPv4 CIDR block larger than /16. You can optionally associate an Amazon-provided IPv6 CIDR block with the VPC.
 1. Go to the VPC console and select "Your VPCs".
 2. Click the "Create VPC" button.
 3. Use a /16 subnet.
 4. Select default tenancy.
  
 ### II. Network ACL
->A network ACL is an optional layer of security that acts as a firewall for controlling traffic in and out of a subnet.
+>A [Network ACL](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html) is an optional layer of security that acts as a firewall for controlling traffic in and out of a subnet.
 1. From the VPC console, select "Network ACLs"
 2. Click the "Create network ACL" button.
 3. Name it.
@@ -55,7 +62,7 @@ You're going to need at least four subnets to make this work. Two public and two
 4. Add all four subnets and save it.
 
 ### V. Create Route Tables
->A route table specifies how packets are forwarded between the subnets within your VPC, the internet, and your VPN connection.
+>A [Route Table](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html) specifies how packets are forwarded between the subnets within your VPC, the internet, and your VPN connection.
 1. Go to the "Route Tables" tab. You should already have a route table for the VPC. Name this something descriptive that follows the same convention as the rest of the infrastructure so you know what goes with what if you or the client builds more systems on this AWS account.
 2. Create a new route table. Click the "Create route table" button. Name it for the private subnet, so you can easily select it when working with private subnets.
 3. Select the VPC from the dropdown.
@@ -71,7 +78,7 @@ You're going to need at least four subnets to make this work. Two public and two
 6. Set the private route table as the main route table. Click it to highlight it. In the "Actions" dropdown, click "Set Main Route Table".
 
 ### VII. Create an Elastic IP
->An Elastic IP address is a static IPv4 address designed for dynamic cloud computing. An Elastic IP address is associated with your AWS account. With an Elastic IP address, you can mask the failure of an instance or software by rapidly remapping the address to another instance in your account.
+>An  [Elastic IP](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html)  address is a static IPv4 address designed for dynamic cloud computing. An Elastic IP address is associated with your AWS account. With an Elastic IP address, you can mask the failure of an instance or software by rapidly remapping the address to another instance in your account.
 1. From the Elastic IPs tab, click "Allocate new address".
 2. Just let Amazon pull one from their pool, unless you have one you insist on using.
 3. Click "Allocate".
