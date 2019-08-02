@@ -2,6 +2,8 @@
 
 ## Instructions on how to set up infrastructure behind a secure virtual private cloud on Amazon web services.
 
+*SPECIAL NOTE: There are a couple of notes in this document were I'm unclear on how it actually came together. Please read over the notes first to make sure you know what you're geting yourself into. Maybe You can help me clear these parts up.*
+
 I'm going to start with an outline based on my most recent notes. Once I've documented the overall process, I'll take some time and go back and flesh it out with more detail. A lot of this comes directly from the AWS docs. 
 
 So, one thing to keep in mind here is there are countless ways to set these things up. This may not be the perfect way for every system, but it's a solid config that I use a lot. I'm documenting it because it works for me in most cases and the AWS docs take so long to study and analyze. I just wanted a quick way to share this process and get feedback from the community.
@@ -123,3 +125,8 @@ You're going to need at least four subnets to make this work. Two public and two
 8. From the "Actions" dropdown, click associate address.
 
 *NOTE: That last step is documented as failing. Looking back, it appears that this step may be automated. It looks like AWS generated on for me that ended up being attached to the elastic IP for me. Again, I'll watch more closely next time I follow these docs so I can improve this part.*
+
+# That's It!
+You now have a secure VPC with all of the infrastructure you need to make your instances public on the web, while also protecting them from access but allowing your team to tunnel into any of them through a single bastion. 
+
+Next, I'll be adding a docs about Load Balancing, AutoScaling and CodeDeploy with BitBucket Pipelines.
