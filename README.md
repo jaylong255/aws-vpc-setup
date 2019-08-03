@@ -136,4 +136,4 @@ You're going to need at least four subnets to make this work. Two public and two
 # That's It!
 You now have a secure VPC with all of the infrastructure you need to make your instances public on the web, while also protecting them from access but allowing your team to tunnel into any of them through a single bastion. 
 
-Next, I'll be adding a docs about Load Balancing, AutoScaling and CodeDeploy with BitBucket Pipelines.
+Next, I'll be adding a docs about [Load Balancing](https://github.com/jaylong255/aws-elb-setup), AutoScaling and CodeDeploy with BitBucket Pipelines.
