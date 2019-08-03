@@ -84,7 +84,7 @@ You're going to need at least four subnets to make this work. Two public and two
 3. Click "Allocate".
 
 ### VIII. Create a NAT Gateway
->You can use a network address translation (NAT) gateway [network address translation (NAT) gateway](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html) to enable instances in a private subnet to connect to the internet or other AWS services, but prevent the internet from initiating a connection with those instances.
+>You can use a [network address translation (NAT) gateway](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html) to enable instances in a private subnet to connect to the internet or other AWS services, but prevent the internet from initiating a connection with those instances.
 1. From the NAT Gateway tab, click "Create NAT Gateway".
 2. Select one of your new public subnets.
 3. Select your new elastic ip.
